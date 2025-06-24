@@ -1,0 +1,21 @@
+version: '3.8'
+services:
+  flowise:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - FLOWISE_USERNAME=${FLOWISE_USERNAME}
+      - FLOWISE_PASSWORD=${FLOWISE_PASSWORD}
+      # Add any other environment variables you might need for Flowise or AWS Bedrock
+      # For example, if you want to pre-configure AWS credentials (though it's often better to use IAM roles or mounted config files)
+      # - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      # - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      # - AWS_REGION=${AWS_REGION}
+    volumes:
+      # Mount a volume to persist Flowise data (e.g., chatflows, credentials)
+      # Create a directory named '.flowise' in your project root or choose another path
+      - ./flowise_data:/root/.flowise
+    # If you need to pass specific command arguments to flowise start
+    # command: ["npx", "flowise", "start"] # This is the default from the Dockerfile CMD
+    restart: unless-stopped
